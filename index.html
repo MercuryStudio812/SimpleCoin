@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/tap.js"></script>
+    <script src="scripts/footer.js"></script>
+  </head>
+  <body>
+    <div class="account-container">
+        <button class="account-button"></button>
+    </div>
+    <div id="main">
+      <div class="money-btn">
+        <button class="click-btn">Click</button>
+        <p class="click-text">click: +1 coin</p>
+      </div>
+      <div class="money-quantity">
+        <p class="text-quantity">0 coins</p>
+      </div>
+    </div>
+    <div id="ld" style="display: none;">
+      <div class="header-table">
+        <div class="header-name">
+          <p class="header-text">Nickname</p>
+        </div>
+        <div class="header-quantity">
+          <p class="header-text">Coins quantity</p>
+        </div>
+      </div>
+    </div>
+    <div id="acc" style="display: none;">
+      <div class="name-container">
+        <p class="name-text">name</p>
+      </div>
+      <div class="TON-wallet-container">
+        <div id="unsignedTONwallet">
+          <button class="sign-TON-wallet">Привязать кошелек TON</button>
+        </div>
+        <div id="signedTONwallet" style="display: none;">
+          <div class="TON-quantity">0 TON</div>
+          <div class="SIMPLE-quantity">0 $SIMPLE</div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer-container">
+      <button class="main-button">main</button>
+      <button class="leaderbord-button">leaderbord</button>
+    </footer>
+  </body>
+</html>
