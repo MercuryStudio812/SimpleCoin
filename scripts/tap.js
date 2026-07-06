@@ -1,40 +1,63 @@
-// Подключаем библиотеку Supabase
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-// ============================================
-// ТВОИ ДАННЫЕ SUPABASE (замени, если нужно)
-// ============================================
 const SUPABASE_URL = 'https://ourbrwsyctgagnzijexz.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_3iKhpRJPSVSYHCzrMPYK4Q_baqB_jGd'; // <-- ВСТАВЬ СВОЙ КЛЮЧ ИЗ НАСТРОЕК API
+const SUPABASE_ANON_KEY = 'sb_publishable_3iKhpRJPSVSYHCzrMPYK4Q_baqB_jGd';
 
-// Создаём клиент Supabase
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ============================================
-// ТВОЯ ТАПАЛКА
-// ============================================
 document.addEventListener("DOMContentLoaded", async () => {
     const tap_btn = document.querySelector(".click-btn");
     const quantity_text = document.querySelector(".text-quantity");
 
-    // --------------------------------------------------
-    // 1. ПОЛУЧАЕМ ID ИГРОКА ИЗ TELEGRAM
-    // --------------------------------------------------
-    // Пока Telegram Web App не подключен, используем тестовый ID.
-    // Когда подключишь Telegram SDK, замени на:
-    // const tg = window.Telegram.WebApp;
-    // const userId = tg.initDataUnsafe.user.id;
-    const userId = 123456789; // Временный тестовый ID
+    const userId = 123456789;
 
-    // --------------------------------------------------
-    // 2. ИЩЕМ ИГРОКА В БАЗЕ (или создаём нового)
-    // --------------------------------------------------
     async function getOrCreateUser() {
-        // Пробуем найти пользователя
         const { data: existingUser, error: findError } = await supabase
             .from('users')
             .select('coins')
             .eq('id', userId)
+            .single();
+
+        if (findError) {
+            alert('Ошибка поиска: ' + JSON.stringify(findError));
+            return 0;
+        }
+
+        if (existingUser) return existingUser.coins;
+
+        const { data: newUser, error: insertError } = await supabase
+            .from('users')
+            .insert({ id: userId, username: 'player', coins: 0 })
+            .select('coins')
+            .single();
+
+        if (insertError) {
+            alert('Ошибка создания: ' + JSON.stringify(insertError));
+            return 0;
+        }
+
+        return newUser.coins;
+    }
+
+    let coins = await getOrCreateUser();
+    quantity_text.textContent = `${coins} coins`;
+
+    async function tap() {
+        coins += 1;
+        quantity_text.textContent = `${coins} coins`;
+
+        const { error: updateError } = await supabase
+            .from('users')
+            .update({ coins: coins, last_click: new Date().toISOString() })
+            .eq('id', userId);
+
+        if (updateError) {
+            alert('Ошибка обновления: ' + JSON.stringify(updateError));
+        }
+    }
+
+    tap_btn.addEventListener("click", tap);
+});            .eq('id', userId)
             .single();
 
         if (existingUser) {
