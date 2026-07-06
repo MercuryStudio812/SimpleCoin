@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userId = 123456789;
 
     async function getOrCreateUser() {
+        console.log('Ищем пользователя...');
         const { data: existingUser, error: findError } = await supabase
             .from('users')
             .select('coins')
@@ -19,12 +20,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             .single();
 
         if (findError) {
-            alert('Ошибка поиска: ' + JSON.stringify(findError));
+            console.log('Ошибка поиска:', findError);
             return 0;
         }
 
-        if (existingUser) return existingUser.coins;
+        if (existingUser) {
+            console.log('Пользователь найден, монеты:', existingUser.coins);
+            return existingUser.coins;
+        }
 
+        console.log('Создаём нового пользователя...');
         const { data: newUser, error: insertError } = await supabase
             .from('users')
             .insert({ id: userId, username: 'player', coins: 0 })
@@ -32,10 +37,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             .single();
 
         if (insertError) {
-            alert('Ошибка создания: ' + JSON.stringify(insertError));
+            console.log('Ошибка создания:', insertError);
             return 0;
         }
 
+        console.log('Пользователь создан, монеты:', newUser.coins);
         return newUser.coins;
     }
 
@@ -52,14 +58,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             .eq('id', userId);
 
         if (updateError) {
-            alert('Ошибка обновления: ' + JSON.stringify(updateError));
+            console.log('Ошибка обновления:', updateError);
+        } else {
+            console.log('Монеты сохранены:', coins);
         }
     }
 
     tap_btn.addEventListener("click", tap);
-});            .eq('id', userId)
-            .single();
-
+});
         if (existingUser) {
             // Пользователь есть — возвращаем его монеты
             return existingUser.coins;
