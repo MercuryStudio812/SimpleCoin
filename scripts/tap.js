@@ -12,29 +12,38 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userId = 123456789;
 
     async function getOrCreateUser() {
-        console.log('Ищем пользователя...');
-        const { data: existingUser, error: findError } = await supabase
+        const { data: existingUser } = await supabase
             .from('users')
             .select('coins')
             .eq('id', userId)
             .single();
 
-        if (findError) {
-            console.log('Ошибка поиска:', findError);
-            return 0;
-        }
+        if (existingUser) return existingUser.coins;
 
-        if (existingUser) {
-            console.log('Пользователь найден, монеты:', existingUser.coins);
-            return existingUser.coins;
-        }
-
-        console.log('Создаём нового пользователя...');
-        const { data: newUser, error: insertError } = await supabase
+        const { data: newUser } = await supabase
             .from('users')
             .insert({ id: userId, username: 'player', coins: 0 })
             .select('coins')
             .single();
+
+        return newUser ? newUser.coins : 0;
+    }
+
+    let coins = await getOrCreateUser();
+    quantity_text.textContent = `${coins} coins`;
+
+    async function tap() {
+        coins += 1;
+        quantity_text.textContent = `${coins} coins`;
+
+        await supabase
+            .from('users')
+            .update({ coins: coins, last_click: new Date().toISOString() })
+            .eq('id', userId);
+    }
+
+    tap_btn.addEventListener("click", tap);
+});            .single();
 
         if (insertError) {
             console.log('Ошибка создания:', insertError);
