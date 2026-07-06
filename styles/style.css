@@ -1,4 +1,4 @@
-/* Сброс стилей и светлая тема для Telegram Mini App */
+/* ========== ОБЩИЕ СТИЛИ ========== */
 * {
     margin: 0;
     padding: 0;
@@ -6,108 +6,99 @@
 }
 
 body {
-    background: #ffffff !important;
+    background: #ffffff;
     color: #000000;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 400;
     max-width: 100vw;
     overflow-x: hidden;
+    height: 100vh;
 }
 
-/* Адаптивный размер кнопки */
+/* ========== КНОПКА КЛИКА ========== */
+.money-btn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+}
+
 .click-btn {
-    width: 70vw;
-    max-width: 280px;
-    height: 70vw;
-    max-height: 280px;
+    border: 2px solid #cccccc;
     border-radius: 50%;
-    font-size: 24px;
-    margin: 20px auto;
-    display: block;
+    width: 200px;
+    height: 200px;
+    background: #ffffff;
+    font-size: 28px;
+    font-weight: 500;
+    color: #333333;
+    cursor: pointer;
+    transition: background 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Адаптивный текст */
+.click-btn:active {
+    background: #e0e0e0;
+}
+
 .click-text {
     font-size: 16px;
+    color: #888888;
+    margin-top: 16px;
     text-align: center;
+}
+
+/* ========== СЧЁТЧИК МОНЕТ ========== */
+.money-quantity {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
 }
 
 .text-quantity {
-    font-size: 32px;
+    font-size: 36px;
+    font-weight: 700;
+    color: #000000;
     text-align: center;
-    font-weight: bold;
 }
 
-/* Футер */
+/* ========== ФУТЕР ========== */
 .footer-container {
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
+    height: 60px;
     display: flex;
+    align-items: center;
     justify-content: space-around;
-    padding: 10px;
-    background: #f0f0f0;
-}
-body{
-  margin: 0;
-  font-weight: 100;
-}
-.money-btn{
-  width: 100vw;
-  height: 40vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  top: 100px;
-}
-.click-btn{
-  border: 0.7px solid black;
-  border-radius: 100%;
-  width: 500px;
-  height: 500px;
-  background: white;
-  position: relative;
-  top: 40px;
-  font-size: 40px;
-  font-weight: 200;
-}
-.click-btn:active{
-  background: rgb(200, 200, 200);
-}
-.click-text{
-  position: relative;
-  top: 50px;
-  font-size: 20px;
-}
-.money-quantity{
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.text-quantity{
-  font-size: 40px;
-}
-footer{
-  width: 100%;
-  height: 100px;
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-footer button{
-  width: 50%;
-  height: 100%;
-  border: 0.5px solid black;
-  background: white;
-  font-size: 30px;
-  font-weight: 200;
+    background: #f5f5f5;
+    border-top: 1px solid #e0e0e0;
+    z-index: 10;
 }
 
-footer button.active {
-    background-color: rgb(200, 200, 200) !important;
+.footer-container button {
+    width: 50%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+    cursor: pointer;
+}
+
+.footer-container button.active {
+    background-color: #e0e0e0;
+}
+
+/* ========== СКРЫТЫЕ БЛОКИ ========== */
+#ld, #acc {
+    display: none;
 }
