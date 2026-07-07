@@ -7,18 +7,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let connector = null;
 
-    // Инициализируем TON Connect только если библиотека загружена
     if (typeof TonConnectSDK !== 'undefined') {
         connector = new TonConnectSDK.TonConnect({
             manifestUrl: 'https://simple-coin-silk.vercel.app/tonconnect-manifest.json'
         });
 
-        if (connector.connected) {
-            const wallet = connector.wallet;
-            getBalance(wallet.account.address);
+        // Правильная проверка: есть ли уже подключённый кошелёк
+        if (connector.wallet) {
             document.getElementById("unsignedTONwallet").style.display = "none";
             document.getElementById("signedTONwallet").style.display = "block";
+            getBalance(connector.wallet.account.address);
         }
+
+        // Следим за изменениями
+        connector.onStatusChange((wallet) => {
+            if (wallet) {
+                document.getElementById("unsignedTONwallet").style.display = "none";
+                document.getElementById("signedTONwallet").style.display = "block";
+                getBalance(wallet.account.address);
+            }
+        });
     }
 
     let userName = 'player';
@@ -32,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function getBalance(address) {
+        if (!address) return;
         try {
             const response = await fetch(`https://tonapi.io/v2/accounts/${address}`);
             const data = await response.json();
@@ -56,14 +65,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         try {
             const wallets = await connector.getWallets();
+            if (!wallets || wallets.length === 0) {
+                alert('Установите TON-кошелёк (Tonkeeper, MyTonWallet)');
+                return;
+            }
+            // Берём первый доступный кошелёк
             await connector.connect(wallets[0]);
-            const wallet = connector.wallet;
-            getBalance(wallet.account.address);
-
-            document.getElementById("unsignedTONwallet").style.display = "none";
-            document.getElementById("signedTONwallet").style.display = "block";
+            // Всё остальное сделает onStatusChange
         } catch (error) {
-            console.log(error);
+            console.log('Подключение отменено:', error);
         }
     }
 
