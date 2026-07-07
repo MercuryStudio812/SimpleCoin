@@ -5,15 +5,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const tonBalance = document.querySelector(".TON-quantity");
     const simpleBalance = document.querySelector(".SIMPLE-quantity");
 
-    const connector = new TonConnectSDK.TonConnect({
-        manifestUrl: 'https://simple-coin-silk.vercel.app/tonconnect-manifest.json'
-    });
+    let connector = null;
 
-    if (connector.connected) {
-        const wallet = connector.wallet;
-        getBalance(wallet.account.address);
-        document.getElementById("unsignedTONwallet").style.display = "none";
-        document.getElementById("signedTONwallet").style.display = "block";
+    // Инициализируем TON Connect только если библиотека загружена
+    if (typeof TonConnectSDK !== 'undefined') {
+        connector = new TonConnectSDK.TonConnect({
+            manifestUrl: 'https://simple-coin-silk.vercel.app/tonconnect-manifest.json'
+        });
+
+        if (connector.connected) {
+            const wallet = connector.wallet;
+            getBalance(wallet.account.address);
+            document.getElementById("unsignedTONwallet").style.display = "none";
+            document.getElementById("signedTONwallet").style.display = "block";
+        }
     }
 
     let userName = 'player';
@@ -45,6 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function TONWalletSign() {
+        if (!connector) {
+            alert('TON Connect не загружен');
+            return;
+        }
         try {
             const wallets = await connector.getWallets();
             await connector.connect(wallets[0]);
