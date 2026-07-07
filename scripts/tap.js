@@ -12,39 +12,49 @@ document.addEventListener("DOMContentLoaded", async () => {
     // --------------------------------------------------
     // ПОЛУЧАЕМ ID ИЗ TELEGRAM (или заглушка для браузера)
     // --------------------------------------------------
-    let userId = 123456789;
-
+    let userId = 123456789; 
+    let userName = "Player";
+    
     if (window.Telegram && window.Telegram.WebApp) {
         const tg = window.Telegram.WebApp;
         tg.ready();
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             userId = tg.initDataUnsafe.user.id;
+            userName = tg.initDataUnsafe.username || tg.initDataUnsafe.first_name || "Player";
         }
     }
 
     async function getOrCreateUser() {
         const { data: existingUser } = await supabase
             .from('users')
-            .select('coins')
+            .select('coins, multitap')
             .eq('id', userId)
             .single();
 
-        if (existingUser) return existingUser.coins;
+        if (existingUser) return existingUser;
 
         const { data: newUser } = await supabase
             .from('users')
-            .insert({ id: userId, username: 'player', coins: 0 })
+            .insert({ id: userId, username: userName, coins: 0, multitap: 1})
             .select('coins')
             .single();
 
-        return newUser ? newUser.coins : 0;
+        return newUser ? newUser;
     }
-
-    let coins = await getOrCreateUser();
+    const data = await getOrCreateUser();
+    let coins = data.coins;
+    let multitap = data.multitap;
+    
     quantity_text.textContent = `${coins} coins`;
 
+    async function upgrade(){
+        multitap += 1;
+
+        await supabase.from('users').update({multitap: multitap}).eq('id', userId);
+    } 
+
     async function tap() {
-        coins += 1;
+        coins += multitap;
         quantity_text.textContent = `${coins} coins`;
 
         await supabase
