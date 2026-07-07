@@ -16,7 +16,13 @@ body {
     height: 100vh;
     -webkit-text-size-adjust: none;
 }
-
+.separator {
+    width: 80%;
+    height: 1px;
+    background: #e0e0e0;
+    margin: 20px auto;
+    border: none;
+}
 /* ========== КНОПКА КЛИКА ========== */
 .money-btn {
     width: 100%;
@@ -158,6 +164,10 @@ body {
     justify-content: center;
     align-items: center;
 }
+.TON-wallet-title{
+    font-size: 20vw;
+    font-weight: 400; 
+}
 .sign-TON-wallet{
     width: 25vw;
     height: 5vh;
@@ -165,6 +175,7 @@ body {
     background-color: white;
     font-weight: 200;
     font-size: auto;
+    border-radius: 20px;
 }
 /* ========== СКРЫТЫЕ БЛОКИ ========== */
 #ld, #acc {
