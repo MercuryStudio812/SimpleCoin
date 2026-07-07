@@ -159,9 +159,9 @@ body {
     align-items: center;
 }
 .sign-TON-wallet{
-    width: 15vw;
-    height: 8vh;
-    border: 1px solid black;
+    width: 25vw;
+    height: 5vh;
+    border: 0.7px solid black;
     background-color: white;
     font-weight: 200;
     font-size: auto;
