@@ -98,10 +98,14 @@ body {
     background-color: #e0e0e0;
 }
 .account-container{
-    width: 5vw;
-    height: 5vh;
+    width: 7vw;
+    height: 7vh;
     position: relative;
-    right: 0;
+    right: 0px;
+}
+.account-button{
+    width: 100%;
+    height: 100%;
 }
 /* ========== СКРЫТЫЕ БЛОКИ ========== */
 #ld, #acc {
