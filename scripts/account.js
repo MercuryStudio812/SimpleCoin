@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const simpleBalance = document.querySelector(".SIMPLE-quantity);
                                 
     const connector = new TonConnectSDK.TonConnect({
-    manifestUrl: 'manifest.json'
+    manifestUrl: '../tonconnect-manifest.json'
 });
     if (connector.connected) {
         const wallet = connector.wallet;
