@@ -157,7 +157,7 @@ body {
     font-size: 7vw;
     font-weight: 400;
 }
-#unsignedTONwallet{
+.TON-wallet-container{
     width: 100%;
     height: auto;
     display: flex;
