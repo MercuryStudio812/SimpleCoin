@@ -151,6 +151,21 @@ body {
     font-size: 7vw;
     font-weight: 400;
 }
+.unsignedTONwallet{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sign-TON-wallet{
+    width: 15vw;
+    height: 8vh;
+    border: 1px solid black;
+    background-color: white;
+    font-weight: 200;
+    font-size: auto;
+}
 /* ========== СКРЫТЫЕ БЛОКИ ========== */
 #ld, #acc {
     display: none;
