@@ -32,8 +32,6 @@ body {
     border-radius: 50%;
     width: 55vw;
     height: 55vw;
-    max-width: 220px;
-    max-height: 220px;
     background: #ffffff;
     font-size: 5vw;
     font-weight: 500;
@@ -43,6 +41,25 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* На маленьких экранах — без ограничений */
+@media screen and (max-width: 430px) {
+    .click-btn {
+        max-width: none;
+        max-height: none;
+        width: 60vw;
+        height: 60vw;
+        font-size: 6vw;
+    }
+}
+
+/* На планшетах — ограничиваем */
+@media screen and (min-width: 768px) {
+    .click-btn {
+        max-width: 250px;
+        max-height: 250px;
+    }
 }
 
 .click-btn:active {
