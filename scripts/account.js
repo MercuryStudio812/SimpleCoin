@@ -4,13 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const accountName = document.querySelector(".name-text");
     const tonBalance = document.querySelector(".TON-quantity");
     const simpleBalance = document.querySelector(".SIMPLE-quantity");
-                                
+
     const connector = new TonConnectSDK.TonConnect({
-    manifestUrl: '../tonconnect-manifest.json'
-});
+        manifestUrl: 'https://simple-coin-silk.vercel.app/tonconnect-manifest.json'
+    });
+
     if (connector.connected) {
         const wallet = connector.wallet;
         getBalance(wallet.account.address);
+        document.getElementById("unsignedTONwallet").style.display = "none";
+        document.getElementById("signedTONwallet").style.display = "block";
     }
 
     let userName = 'player';
@@ -22,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             userName = user.username || user.first_name || 'player';
         }
     }
+
     async function getBalance(address) {
         try {
             const response = await fetch(`https://tonapi.io/v2/accounts/${address}`);
@@ -32,20 +36,24 @@ document.addEventListener("DOMContentLoaded", () => {
             tonBalance.textContent = 'Ошибка';
         }
     }
+
     function clickAccountButton() {
         document.getElementById("ld").style.display = "none";
         document.getElementById("main").style.display = "none";
         document.getElementById("acc").style.display = "block";
         accountName.textContent = userName;
     }
-    async function TONWalletSign(){
-        try{
+
+    async function TONWalletSign() {
+        try {
             const wallets = await connector.getWallets();
             await connector.connect(wallets[0]);
             const wallet = connector.wallet;
-            const address = connector.address;
             getBalance(wallet.account.address);
-        }catch(error){
+
+            document.getElementById("unsignedTONwallet").style.display = "none";
+            document.getElementById("signedTONwallet").style.display = "block";
+        } catch (error) {
             console.log(error);
         }
     }
