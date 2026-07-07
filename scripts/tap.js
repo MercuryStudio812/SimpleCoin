@@ -25,21 +25,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     async function getOrCreateUser() {
-        const { data: existingUser } = await supabase
-            .from('users')
-            .select('coins, multitap')
-            .eq('id', userId)
-            .single();
-
-        if (existingUser) return existingUser;
-
-        const { data: newUser } = await supabase
-            .from('users')
-            .insert({ id: userId, username: userName, coins: 0, multitap: 1})
-            .select('coins')
-            .single();
-
-        return newUser ? newUser;
+        try {
+            const data = await getOrCreateUser();
+            alert('coins: ' + data.coins + ', multitap: ' + data.multitap);
+            let coins = data.coins;
+            let multitap = data.multitap;
+            quantity_text.textContent = `${coins} coins`;
+        } catch (error) {
+            alert('Ошибка: ' + error.message);
+        }
     }
     const data = await getOrCreateUser();
     alert('coins: ' + data.coins + ', multitap: ' + data.multitap);
