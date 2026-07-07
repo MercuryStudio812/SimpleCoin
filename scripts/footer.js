@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
             current_tab = 0;
             document.getElementById(MAIN_ID).style.display = "";
             document.getElementById(LDID).style.display = "none";
+            document.getElementById("acc").style.display = "none";
             switchColor();
         }
     }
@@ -34,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
             current_tab = 1;
             document.getElementById(MAIN_ID).style.display = "none";
             document.getElementById(LDID).style.display = "";
+            document.getElementById("acc").style.display = "none";
             switchColor();
         }
     }
