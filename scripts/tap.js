@@ -9,7 +9,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const tap_btn = document.querySelector(".click-btn");
     const quantity_text = document.querySelector(".text-quantity");
 
-    const userId = 123456789;
+    // --------------------------------------------------
+    // ПОЛУЧАЕМ ID ИЗ TELEGRAM (или заглушка для браузера)
+    // --------------------------------------------------
+    let userId = 123456789;
+
+    if (window.Telegram && window.Telegram.WebApp) {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            userId = tg.initDataUnsafe.user.id;
+        }
+    }
 
     async function getOrCreateUser() {
         const { data: existingUser } = await supabase
