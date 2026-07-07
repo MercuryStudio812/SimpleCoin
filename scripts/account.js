@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     const accountButton = document.querySelector(".account-button");
+    const tonSignButton = document.querySelector(".sign-TON-wallet");
     const accountName = document.querySelector(".name-text");
     const tonBalance = document.querySelector(".TON-quantity");
-    const simpleBalance = document.querySelector(".SIMPLE-quantity);
+    const simpleBalance = document.querySelector(".SIMPLE-quantity");
                                 
     const connector = new TonConnectSDK.TonConnect({
     manifestUrl: '../tonconnect-manifest.json'
@@ -50,4 +51,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     accountButton.addEventListener("click", clickAccountButton);
+    tonSignButton.addEventListener("click", TONWalletSign);
 });
