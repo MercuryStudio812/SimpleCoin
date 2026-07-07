@@ -108,7 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("signedTONwallet").style.display = "block";
                 getBalance(connectedWallet.account.address);
             } else {
-                alert('H. Не удалось получить адрес');
+                alert('H. Тип результата: ' + typeof connectedWallet);
+                alert('H2. Ключи: ' + JSON.stringify(Object.keys(connectedWallet)));
+                alert('H3. Всё содержимое: ' + JSON.stringify(connectedWallet));
             }
         } catch (error) {
             alert('ОШИБКА: ' + error.message);
