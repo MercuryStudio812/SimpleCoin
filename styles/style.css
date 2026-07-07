@@ -98,9 +98,10 @@ body {
     background-color: #e0e0e0;
 }
 .account-container{
-    width: 7vw;
-    height: 5vh;
-    position: relative;
+    width: 8vw;
+    height: 4vh;
+    position: fixed;
+    top: 10px;
     right: 0px;
 }
 .account-button {
