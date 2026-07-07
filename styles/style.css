@@ -161,7 +161,7 @@ body {
     width: 100%;
     height: auto;
     display: flex;
-    flex-direction: center;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
