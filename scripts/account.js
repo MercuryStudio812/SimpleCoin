@@ -100,9 +100,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             alert('F. Подключаюсь к: ' + wallets[0].name);
-            const result = await connector.connect(wallets[0]);
-            alert('G. Результат connect: ' + JSON.stringify(result));
-            alert('H. connector.wallet: ' + JSON.stringify(connector.wallet));
+            const connectedWallet = await connector.connect(wallets[0]);
+            
+            if (connectedWallet && connectedWallet.account) {
+                alert('H. Адрес из connect: ' + connectedWallet.account.address);
+                document.getElementById("unsignedTONwallet").style.display = "none";
+                document.getElementById("signedTONwallet").style.display = "block";
+                getBalance(connectedWallet.account.address);
+            } else {
+                alert('H. Не удалось получить адрес');
+            }
         } catch (error) {
             alert('ОШИБКА: ' + error.message);
             console.log(error);
