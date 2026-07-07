@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return newUser ? newUser;
     }
     const data = await getOrCreateUser();
+    alert('coins: ' + data.coins + ', multitap: ' + data.multitap);
     let coins = data.coins;
     let multitap = data.multitap;
     
