@@ -97,7 +97,12 @@ body {
 .footer-container button.active {
     background-color: #e0e0e0;
 }
-
+.account-container{
+    width: 5vw;
+    height: 5vh;
+    position: relative;
+    right: 0;
+}
 /* ========== СКРЫТЫЕ БЛОКИ ========== */
 #ld, #acc {
     display: none;
