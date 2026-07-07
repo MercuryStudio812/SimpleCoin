@@ -100,8 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             alert('F. Подключаюсь к: ' + wallets[0].name);
-            await connector.connect(wallets[0]);
-            alert('G. connect() выполнен, ждём onStatusChange...');
+            const result = await connector.connect(wallets[0]);
+            alert('G. Результат connect: ' + JSON.stringify(result));
+            alert('H. connector.wallet: ' + JSON.stringify(connector.wallet));
         } catch (error) {
             alert('ОШИБКА: ' + error.message);
             console.log(error);
