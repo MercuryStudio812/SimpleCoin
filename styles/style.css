@@ -185,6 +185,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    top: 5vh;
 }
 .upgrade-button{
     border: 0.7px solid black;
