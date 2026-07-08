@@ -42,9 +42,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (earned > 0) {
             coins += earned;
-            await supabase.from('users').update({ coins: coins }).eq('id', userId);
+            await supabase
+                .from('users')
+                .update({ coins: coins, last_click: new Date().toISOString() })
+                .eq('id', userId);
             quantity_text.textContent = `${coins} coins`;
-            alert(`Оффлайн-ферма заработала: +${earned} coins`);
+            alert(`Ваша доход от фермы оффлайн: +${earned} coins`);
         }
 
         return earned;
