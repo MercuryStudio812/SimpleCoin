@@ -143,5 +143,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (upgrade_button) {
         upgrade_button.addEventListener("click", upgrade);
     }
-    buy_farm_button.addEventListener("click", buyFarm);
+    if (buy_farm_button) {
+        buy_farm_button.addEventListener("click", buyFarm);
+    } else {
+        alert('Кнопка buy-farm не найдена!');
+    }
 });
