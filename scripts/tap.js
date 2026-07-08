@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const quantity_text = document.querySelector(".text-quantity");
     const upgrade_button = document.querySelector(".upgrade-button");
     const upgrade_price = document.querySelector(".upgrade-price");
+    const multitap_text = document.querySelector(".click-text");
 
     let userId = 123456789;
     let userName = "Player";
@@ -45,16 +46,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     let coins = data.coins;
     let multitap = data.multitap;
     let upgradePrice = multitap * 200;
-    
 
     quantity_text.textContent = `${coins} coins`;
-    upgrade_price.textContent = `${upgradePrice} coins`;
-    
+    if (upgrade_price) {
+        upgrade_price.textContent = `${upgradePrice} coins`;
+    }
+    if(multitap_text) {
+        multitap_text.textContent = `click: +${multitap} coins`;
+    }
+
     async function upgrade() {
+        if (coins < upgradePrice) {
+            alert('Недостаточно монет!');
+            return;
+        }
+        coins -= upgradePrice;
         multitap += 1;
-        let upgradePrice = multitap * 200;
-        upgrade_price.textContent = `${upgradePrice} coins`;      
-        await supabase.from('users').update({ multitap: multitap }).eq('id', userId);
+        upgradePrice = multitap * multitap * 200;
+
+        quantity_text.textContent = `${coins} coins`;
+        if (upgrade_price) {
+            upgrade_price.textContent = `${upgradePrice} coins`;
+        }
+        if(multitap_text) {
+            multitap_text.textContent = `click: +${multitap} coins`;
+        }
+
+        await supabase
+            .from('users')
+            .update({ coins: coins, multitap: multitap })
+            .eq('id', userId);
     }
 
     async function tap() {
@@ -68,5 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     tap_btn.addEventListener("click", tap);
-    upgrade_button.addEventListener("click", upgrade);
+    if (upgrade_button) {
+        upgrade_button.addEventListener("click", upgrade);
+    }
 });
