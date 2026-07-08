@@ -179,6 +179,23 @@ body {
     font-size: auto;
     border-radius: 20px;
 }
+.upgrade-container{
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.upgrade-button{
+    border: 0.7px solid black;
+    border-radius: 20px;
+    width: 30vw;
+    height: 100%;
+}
+.upgrade-price{
+    font-size: 17vw;
+    font-weight: 300;
+}
 /* ========== СКРЫТЫЕ БЛОКИ ========== */
 #ld, #acc {
     display: none;
