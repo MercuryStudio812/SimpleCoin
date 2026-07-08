@@ -40,10 +40,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const cappedSeconds = Math.min(secondsAway, 14400);
         const earned = cappedSeconds * farmData.offline_income;
 
-        // Сразу обновляем last_click, чтобы не начислило повторно
+        // СРАЗУ обновляем last_click, чтобы при следующем заходе не начислило повторно
         await supabase
             .from('users')
-            .update({ last_click: now.toLocaleString('ru-RU') })
+            .update({ last_click: new Date().toISOString() })
             .eq('id', userId);
 
         if (earned > 0) {
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 coins: 0, 
                 multitap: 1, 
                 offline_income: 0,
-                last_click: new Date().toLocaleString('ru-RU')
+                last_click: new Date().toISOString()
             })
             .select('coins, multitap, offline_income')
             .single();
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             .from('users')
             .update({ 
                 coins: coins, 
-                last_click: new Date().toLocaleString('ru-RU') 
+                last_click: new Date().toISOString() 
             })
             .eq('id', userId);
     }
