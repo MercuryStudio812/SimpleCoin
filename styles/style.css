@@ -185,8 +185,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    top: 5vh;
 }
 .upgrade-button{
     border: 0.7px solid black;
@@ -199,6 +197,25 @@ body {
 .upgrade-price{
     font-size: 6vw;
     font-weight: 300;
+}
+.offline-farm-container{
+    width: 100%;
+    height: 7vh;
+}
+#unsigned-farm{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#signed-farm{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 /* ========== СКРЫТЫЕ БЛОКИ ========== */
 #ld, #acc {
