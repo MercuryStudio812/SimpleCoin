@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await getOrCreateUser();
     let coins = data.coins;
     let multitap = data.multitap;
-    let upgradePrice = multitap * 200;
+    let upgradePrice = multitap * multitap * 200;
 
     quantity_text.textContent = `${coins} coins`;
     if (upgrade_price) {
