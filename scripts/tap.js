@@ -123,15 +123,22 @@ document.addEventListener("DOMContentLoaded", async () => {
             .update({ coins: coins, last_click: new Date().toISOString() })
             .eq('id', userId);
     }
-    async function buyFarm(){
-        document.querySelector(".unsigned-farm").style.display = "none";
-        document.querySelector(".signed-farm").style.display = "";
-
+    async function buyFarm() {
+        if (coins < 20000) {
+            alert('Недостаточно монет!');
+            return;
+        }
         coins -= 20000;
-        
-        await supabase.from('users').update({offline_income: 1, coins: coins}).eq('id', userId);
-    }
+    
+        document.getElementById("unsigned-farm").style.display = "none";
+        document.getElementById("signed-farm").style.display = "block";
+        quantity_text.textContent = `${coins} coins`;
 
+        await supabase
+            .from('users')
+            .update({ offline_income: 1, coins: coins })
+            .eq('id', userId);
+    }
     tap_btn.addEventListener("click", tap);
     if (upgrade_button) {
         upgrade_button.addEventListener("click", upgrade);
