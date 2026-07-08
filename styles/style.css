@@ -181,19 +181,19 @@ body {
 }
 .upgrade-container{
     width: 100%;
-    height: 10vh;
+    height: 7vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .upgrade-button{
     border: 0.7px solid black;
-    border-radius: 20px;
-    width: 30vw;
+    border-radius: 25px;
+    width: 35vw;
     height: 100%;
 }
 .upgrade-price{
-    font-size: 17vw;
+    font-size: 8vw;
     font-weight: 300;
 }
 /* ========== СКРЫТЫЕ БЛОКИ ========== */
