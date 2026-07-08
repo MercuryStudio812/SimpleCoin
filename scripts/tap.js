@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function getOrCreateUser() {
         const { data: existingUser } = await supabase
             .from('users')
-            .select('coins, multitap')
+            .select('coins, multitap, offline_income')
             .eq('id', userId)
             .single();
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const { data: newUser } = await supabase
             .from('users')
             .insert({ id: userId, username: userName, coins: 0, multitap: 1, offline_income: 0})
-            .select('coins, multitap')
+            .select('coins, multitap, offline_income')
             .single();
 
         return newUser || { coins: 0, multitap: 1 };
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let upgradePrice = multitap * multitap * 200;
 
     const {data: farmInfo} = await supabase.from('users').select('offline_income').eq('id', userId).single();
-    if(farmInfo.offline_income > 0){
+    if(farmInfo && farmInfo.offline_income > 0){
         document.querySelector(".unsigned-farm").style.display = "none";
         document.querySelector(".signed-farm").style.display = "";
         
