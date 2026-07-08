@@ -39,16 +39,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         const secondsAway = Math.floor((now - lastClick) / 1000);
         const cappedSeconds = Math.min(secondsAway, 14400);
         const earned = cappedSeconds * farmData.offline_income;
-        alert('now: ' + now.toISOString() + '\nlastClick: ' + lastClick.toISOString() + '\nразница в секундах: ' + secondsAway);
+
+        // Сразу обновляем last_click, чтобы не начислило повторно
+        await supabase
+            .from('users')
+            .update({ last_click: now.toLocaleString('ru-RU') })
+            .eq('id', userId);
 
         if (earned > 0) {
             coins += earned;
-            await supabase
-                .from('users')
-                .update({ coins: coins, last_click: new Date().toISOString() })
-                .eq('id', userId);
+            await supabase.from('users').update({ coins: coins }).eq('id', userId);
             quantity_text.textContent = `${coins} coins`;
-            alert(`Ваша доход от фермы оффлайн: +${earned} coins`);
+            alert(`Оффлайн-ферма заработала: +${earned} coins`);
         }
 
         return earned;
@@ -65,7 +67,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const { data: newUser } = await supabase
             .from('users')
-            .insert({ id: userId, username: userName, coins: 0, multitap: 1, offline_income: 0 })
+            .insert({ 
+                id: userId, 
+                username: userName, 
+                coins: 0, 
+                multitap: 1, 
+                offline_income: 0,
+                last_click: new Date().toLocaleString('ru-RU')
+            })
             .select('coins, multitap, offline_income')
             .single();
 
@@ -109,7 +118,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         await supabase
             .from('users')
-            .update({ coins: coins, last_click: new Date().toISOString() })
+            .update({ 
+                coins: coins, 
+                last_click: new Date().toLocaleString('ru-RU') 
+            })
             .eq('id', userId);
     }
 
