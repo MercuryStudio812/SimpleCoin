@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const upgrade_button = document.querySelector(".upgrade-button");
     const upgrade_price = document.querySelector(".upgrade-price");
     const multitap_text = document.querySelector(".click-text");
+    const buy_farm_button = document.querySelector(".buy-farm");
 
     let userId = 123456789;
     let userName = "Player";
@@ -76,6 +77,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const {data: farmInfo} = await supabase.from('users').select('offline_income').eq('id', userId).single();
     if(farmInfo.offline_income > 0){
+        document.querySelector(".unsigned-farm").style.display = "none";
+        document.querySelector(".signed-farm").style.display = "";
+        
         await offlineFarmCash();
     }
     
@@ -119,9 +123,18 @@ document.addEventListener("DOMContentLoaded", async () => {
             .update({ coins: coins, last_click: new Date().toISOString() })
             .eq('id', userId);
     }
+    async function buyFarm(){
+        document.querySelector(".unsigned-farm").style.display = "none";
+        document.querySelector(".signed-farm").style.display = "";
+
+        coins -= 20000;
+        
+        await supabase.from('users').update({offline_income: 1, coins: coins}).eq('id', userId);
+    }
 
     tap_btn.addEventListener("click", tap);
     if (upgrade_button) {
         upgrade_button.addEventListener("click", upgrade);
     }
+    buy_farm_button.addEventListener("click", buyFarm);
 });
