@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const secondsAway = Math.floor((now - lastClick) / 1000);
         const cappedSeconds = Math.min(secondsAway, 14400);
         const earned = cappedSeconds * farmData.offline_income;
+        alert('now: ' + now.toISOString() + '\nlastClick: ' + lastClick.toISOString() + '\nразница в секундах: ' + secondsAway);
 
         if (earned > 0) {
             coins += earned;
