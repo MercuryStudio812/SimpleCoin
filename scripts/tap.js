@@ -23,6 +23,33 @@ document.addEventListener("DOMContentLoaded", async () => {
             userName = tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name || "Player";
         }
     }
+    async function offlineFarmCash() {
+        const { data: farmData } = await supabase
+            .from('users')
+            .select('last_click, offline_income')
+            .eq('id', userId)
+            .single();
+
+        if (!farmData || !farmData.last_click || !farmData.offline_income) return 0;
+
+        const now = new Date();
+        const lastClick = new Date(farmData.last_click);
+        const secondsAway = Math.floor((now - lastClick) / 1000);
+
+        // Максимум 4 часа (14400 секунд)
+        const cappedSeconds = Math.min(secondsAway, 14400);
+
+        const earned = cappedSeconds * farmData.offline_income;
+
+        if (earned > 0) {
+            alert(`Ваша ферма заработала оффлайн: ${earned} coins`);
+            coins += earned;
+            await supabase.from('users').update({ coins: coins }).eq('id', userId);
+            quantity_text.textContent = `${coins} coins`;
+        }
+
+        return earned;
+    }
 
     async function getOrCreateUser() {
         const { data: existingUser } = await supabase
@@ -35,18 +62,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const { data: newUser } = await supabase
             .from('users')
-            .insert({ id: userId, username: userName, coins: 0, multitap: 1 })
+            .insert({ id: userId, username: userName, coins: 0, multitap: 1, offline_income: 0})
             .select('coins, multitap')
             .single();
 
         return newUser || { coins: 0, multitap: 1 };
     }
-
+    
     const data = await getOrCreateUser();
     let coins = data.coins;
     let multitap = data.multitap;
     let upgradePrice = multitap * multitap * 200;
 
+    const {data: farmInfo} = await supabase.from('users').select('offline_income').eq('id', userId).single();
+    if(farmInfo.offline_income > 0){
+        await offlineFarmCash();
+    }
+    
     quantity_text.textContent = `${coins} coins`;
     if (upgrade_price) {
         upgrade_price.textContent = `${upgradePrice} coins`;
